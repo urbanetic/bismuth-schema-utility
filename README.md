@@ -1,2 +1,2 @@
-# bismuth-schema
-Schemas and collections for working with GIS apps.
+# bismuth-schema-utility
+Utilites for schemas and collections in Bismuth.
