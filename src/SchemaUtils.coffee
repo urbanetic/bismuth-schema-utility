@@ -44,7 +44,8 @@ SchemaUtils =
       collectionName = Collections.getName(global[field.collectionType])
       # TODO(aramk) Refactor out logic for looking up fields in modifier format.
       oldId = Objects.getModifierProperty(model, fieldId)
-      newId = idMaps[collectionName][oldId]
+      newId = idMaps?[collectionName]?[oldId]
+      return unless oldId? && newId?
       $set[fieldId] = newId
     modifier
 
