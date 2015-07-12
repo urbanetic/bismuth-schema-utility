@@ -88,7 +88,7 @@ SchemaUtils =
     model
 
   findByProject: (collection, projectId, args) ->
-    if Types.isObject(projectId)
+    if Types.isObjectLiteral(projectId)
       args = projectId
       projectId = null
     projectId ?= Projects.getCurrentId()
