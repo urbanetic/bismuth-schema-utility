@@ -37,5 +37,6 @@ ParamUtils =
       @_formatter.round(value, args)
     format
 
-requirejs ['atlas/util/NumberFormatter'], (NumberFormatter) ->
-  ParamUtils._formatter = new NumberFormatter()
+if Package['urbanetic:atlas']?
+  requirejs ['atlas/util/NumberFormatter'], (NumberFormatter) ->
+    ParamUtils._formatter = new NumberFormatter()
