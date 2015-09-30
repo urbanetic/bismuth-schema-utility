@@ -67,7 +67,6 @@ SchemaUtils =
         key.split('.')
       else
         null
-    doc
 
   getDefaultParameterValues: memoizeObjectArg (collection) ->
     values = {}
