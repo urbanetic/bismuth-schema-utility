@@ -13,7 +13,7 @@ Package.on_use(function(api) {
     'underscore',
     'aldeed:simple-schema@1.1.0',
     'aramk:requirejs@2.1.15_1',
-    'aramk:utility@0.6.0'
+    'urbanetic:utility@1.0.1'
   ], ['client', 'server']);
   api.use([
     'urbanetic:atlas@0.8.2'
