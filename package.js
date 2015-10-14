@@ -13,8 +13,11 @@ Package.on_use(function(api) {
     'underscore',
     'aldeed:simple-schema@1.1.0',
     'aramk:requirejs@2.1.15_1',
-    'aramk:utility@0.6.0',
+    'aramk:utility@0.6.0'
   ], ['client', 'server']);
+  api.use([
+    'urbanetic:atlas@0.8.2'
+  ], ['client', 'server'], {weak: true});
   api.addFiles([
     'src/ParamUtils.coffee',
     'src/SchemaUtils.coffee',
