@@ -74,10 +74,8 @@ SchemaUtils =
     values = {}
     schema = collection.simpleSchema()
     Collections.forEachFieldSchema schema, (fieldSchema, paramId) ->
-      # Default value is stored in the "classes" object to avoid being used by SimpleSchema.
-      defaultValue = fieldSchema.classes?.ALL?.defaultValue
-      if defaultValue?
-        values[paramId] = defaultValue
+      defaultValue = fieldSchema.defaultValue
+      if defaultValue? then values[paramId] = defaultValue
     SchemaUtils.unflattenParameters(values, false)
 
   mergeDefaultParameterValues: (model, collection) ->
@@ -129,20 +127,6 @@ SchemaUtils =
         if fieldSchema.optional == false
           hasRequiredField = true
         @autoLabel(fieldSchema, itemId)
-        # If defaultValue is used, put it into "classes" to prevent SimpleSchema from storing this
-        # value in the doc. We want to inherit this value at runtime for all classes, but not
-        # persist it in multiple documents in case we want to change it later in the schema.
-        defaultValue = fieldSchema.defaultValue
-        if defaultValue?
-          classes = fieldSchema.classes ?= {}
-          allClassOptions = classes.ALL ?= {}
-          # TODO(aramk) This block causes a strange issue where ALL.classes is defined with
-          # defaultValue already set, though it wasn't a step earlier...
-          if allClassOptions.defaultValue?
-            throw new Error('Default value specified on field ' + itemId +
-                ' and in classOptions - only use one.')
-          allClassOptions.defaultValue = defaultValue
-          delete fieldSchema.defaultValue
       catSchemaFields[itemId] = fieldSchema
     catSchema = new SimpleSchema(catSchemaFields)
     catSchemaArgs = _.extend({
