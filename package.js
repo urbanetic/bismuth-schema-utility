@@ -2,7 +2,7 @@ Package.describe({
   name: 'urbanetic:bismuth-schema-utility',
   summary: 'Utilites for schemas and collections in Bismuth.',
   git: 'https://github.com/urbanetic/bismuth-schema-utility.git',
-  version: '0.2.0'
+  version: '0.2.1'
 });
 
 Package.on_use(function(api) {
