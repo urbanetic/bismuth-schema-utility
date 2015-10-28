@@ -24,16 +24,16 @@ SchemaUtils =
       if fieldSchema?
         callback(fieldSchema, fieldId)
 
-  getSchemaReferenceFields: _.memoize(
-    (collection) ->
-      refFields = {}
-      schema = collection.simpleSchema()
-      Collections.forEachFieldSchema schema, (field, fieldId) ->
-        if field.collectionType
-          refFields[fieldId] = field
-      refFields
-    (collection) -> Collections.getName(collection)
-  )
+  getSchemaReferenceFields: (collection) ->
+    refFields = {}
+    schema = collection.simpleSchema()
+    Collections.forEachFieldSchema schema, (field, fieldId) ->
+      if field.collectionType
+        refFields[fieldId] = field
+    refFields
+
+  getSchemaReferenceFieldsMemoized: (collection) ->
+    _.memoize(SchemaUtils.getSchemaReferenceFields, Collections.getName.bind(Collections))(collection)
 
   getRefModifier: (model, collection, idMaps) ->
     modifier = {}
