@@ -32,9 +32,6 @@ SchemaUtils =
         refFields[fieldId] = field
     refFields
 
-  getSchemaReferenceFieldsMemoized: _.memoize(
-      SchemaUtils.getSchemaReferenceFields, Collections.getName.bind(Collections))
-
   getRefModifier: (model, collection, idMaps) ->
     modifier = {}
     $set = {}
@@ -236,6 +233,11 @@ SchemaUtils =
     decimal: true
     units: 'm^2'
     calc: -> @calcArea(@model._id)
+
+# Define the memoized function separately, and use the unmemoized function by default. This allows
+# collection schemas to change at runtime and not receive stale output.
+SchemaUtils.getSchemaReferenceFieldsMemoized = _.memoize(@getSchemaReferenceFields,
+    Collections.getName.bind(Collections))
 
 ####################################################################################################
 # SCHEMA OPTIONS
