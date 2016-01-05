@@ -24,16 +24,13 @@ SchemaUtils =
       if fieldSchema?
         callback(fieldSchema, fieldId)
 
-  getSchemaReferenceFields: _.memoize(
-    (collection) ->
-      refFields = {}
-      schema = collection.simpleSchema()
-      Collections.forEachFieldSchema schema, (field, fieldId) ->
-        if field.collectionType
-          refFields[fieldId] = field
-      refFields
-    (collection) -> Collections.getName(collection)
-  )
+  getSchemaReferenceFields: (collection) ->
+    refFields = {}
+    schema = collection.simpleSchema()
+    Collections.forEachFieldSchema schema, (field, fieldId) ->
+      if field.collectionType
+        refFields[fieldId] = field
+    refFields
 
   getRefModifier: (model, collection, idMaps) ->
     modifier = {}
@@ -236,6 +233,11 @@ SchemaUtils =
     decimal: true
     units: 'm^2'
     calc: -> @calcArea(@model._id)
+
+# Define the memoized function separately, and use the unmemoized function by default. This allows
+# collection schemas to change at runtime and not receive stale output.
+SchemaUtils.getSchemaReferenceFieldsMemoized = _.memoize(@getSchemaReferenceFields,
+    Collections.getName.bind(Collections))
 
 ####################################################################################################
 # SCHEMA OPTIONS
