@@ -175,6 +175,55 @@ SchemaUtils =
     @mergeObjectsWithTemplate(args)
 
   ################################################################################################
+  # ANCESTRY
+  ################################################################################################
+
+  getAncestryOptions: (options) ->
+    options ?= {}
+    Setter.defaults
+      parentField: 'parentId'
+    , options
+
+  getAncestors: (collection, id, options) ->
+    options = @getAncestryOptions(options)
+    @_queryAncestry collection, id, (doc) ->
+      parentId = Objects.getModifierProperty(doc, options.parentField)
+      collection.findOne {_id: parentId}, options
+    , options
+
+  getChildren: (collection, id, options) ->
+    options = @getAncestryOptions(options)
+    selector = {}
+    selector[options.parentField] = id
+    collection.find(selector, options)
+
+  getDescendants: (collection, id, options) ->
+    options = @getAncestryOptions(options)
+    @_queryAncestry collection, id, (doc) =>
+      @getChildren(collection, doc._id, options).fetch()
+    , options
+
+  _queryAncestry: (collection, id, callback, options) ->
+    options = @getAncestryOptions(options)
+    doc = collection.findOne(_id: id, options)
+    unless doc then throw new Meteor.Error(404, "Entity with ID #{id} not found.")
+
+    queue = [doc]
+    ancestry = []
+    while !_.isEmpty(queue)
+      doc = queue.shift()
+      unless doc._id == id
+        ancestry.push(doc)
+      docs = callback(doc)
+      if docs? and !_.isEmpty(docs)
+        unless Types.isArray(docs) then docs = [docs]
+        _.each docs, (doc) -> queue.push(doc)
+    if options.returnIds
+      _.map ancestry, (doc) -> doc._id
+    else
+      ancestry
+
+  ################################################################################################
   # COMMON SCHEMA DEFINITION
   ################################################################################################
 
@@ -197,13 +246,13 @@ SchemaUtils =
   heightSchema: ->
     type: Number
     decimal: true
-    desc: 'Maximum height of the entity (excluding elevation).'
+    desc: 'Maximum height of the doc (excluding elevation).'
     units: 'm'
 
   elevationSchema: ->
     type: Number
     decimal: true
-    desc: 'Elevation from ground-level to the base of this entity.'
+    desc: 'Elevation from ground-level to the base of this doc.'
     units: 'm'
 
   calcArea: (id) ->
