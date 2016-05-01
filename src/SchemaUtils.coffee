@@ -225,7 +225,7 @@ SchemaUtils =
 
   getRootAncestor: (collection, id, options) ->
     options = @getAncestryOptions(options)
-    _.last @getAncestors(collection, id, options)
+    _.last(@getAncestors(collection, id, options)) ? id
 
   ################################################################################################
   # COMMON SCHEMA DEFINITION
