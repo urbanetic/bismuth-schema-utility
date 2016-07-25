@@ -206,7 +206,7 @@ SchemaUtils =
   _queryAncestry: (collection, id, callback, options) ->
     options = @getAncestryOptions(options)
     doc = collection.findOne(_id: id, options)
-    unless doc then throw new Meteor.Error(404, "Entity with ID #{id} not found.")
+    unless doc then throw new Meteor.Error(404, "Entity with ID '#{id}' not found.")
 
     queue = [doc]
     ancestry = []
