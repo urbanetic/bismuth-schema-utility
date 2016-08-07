@@ -101,8 +101,9 @@ SchemaUtils =
     if label?
       label
     else
+      id = id.replace(/^.*\./, '')
       label = id.replace('_', '')
-      Strings.toTitleCase(label)
+      Strings.toTitleCaseFromCamel(label)
 
   getFieldLabel: (paramId) ->
     field = @getParameterField(paramId)
