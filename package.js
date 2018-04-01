@@ -9,7 +9,7 @@ Package.on_use(function(api) {
   api.versionsFrom('METEOR@1.6.1');
   api.use([
     'check',
-    'coffeescript',
+    'coffeescript@2.2.1_1',
     'underscore',
     'aldeed:simple-schema@1.1.0',
     'aramk:requirejs@2.1.15_1',
