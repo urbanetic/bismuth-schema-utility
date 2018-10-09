@@ -16,7 +16,7 @@ Package.on_use(function(api) {
     'urbanetic:utility@2.0.0'
   ], ['client', 'server']);
   api.use([
-    'urbanetic:atlas@0.8.2'
+    'urbanetic:atlas@1.0.0'
   ], ['client', 'server'], {weak: true});
   api.addFiles([
     'src/ParamUtils.coffee',
