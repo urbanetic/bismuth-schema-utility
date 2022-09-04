@@ -2,10 +2,10 @@ Package.describe({
   name: 'urbanetic:bismuth-schema-utility',
   summary: 'Utilities for schemas and collections in Bismuth.',
   git: 'https://github.com/urbanetic/bismuth-schema-utility.git',
-  version: '1.0.0'
+  version: '2.0.0'
 });
 
-Package.on_use(function(api) {
+Package.onUse(function(api) {
   api.versionsFrom('METEOR@1.6.1');
   api.use([
     'check',
@@ -13,7 +13,7 @@ Package.on_use(function(api) {
     'underscore',
     'aldeed:simple-schema@1.1.0',
     'aramk:requirejs@2.1.15_1',
-    'urbanetic:utility@2.0.0'
+    'urbanetic:utility@3.0.0'
   ], ['client', 'server']);
   api.use([
     'urbanetic:atlas@1.0.0'
